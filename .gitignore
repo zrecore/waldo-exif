@@ -35,3 +35,19 @@ jspm_packages
 
 # Optional REPL history
 .node_repl_history
+
+
+# OS-specific
+.DS_Store
+
+# Editor swapfiles
+.*.sw?
+*~
+
+# Vagrant stuff
+acceptance_config.yml
+boxes/*
+/.vagrant
+/website/.vagrant
+/website/build
+/vagrant-spec.config.rb
