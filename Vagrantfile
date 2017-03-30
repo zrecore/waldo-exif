@@ -31,7 +31,7 @@ Vagrant.configure("2") do |config|
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
   # config.vm.network "private_network", ip: "192.168.33.10"
-  config.vm.network "private_network", ip: "192.168.33.10"
+  config.vm.network "private_network", ip: "192.168.33.11"
 
   # Create a public network, which generally matched to bridged network.
   # Bridged networks make the machine appear as another physical device on
@@ -97,7 +97,7 @@ WantedBy=multi-user.target" | tee /etc/systemd/system/mongodb.service
   $setup_script = <<-SCRIPT
     npm config set python /usr/bin/python2.7
     npm config set prefix /usr/local
-    npm install -g @angular/cli webpack webpack-dev-server karma-cli protractor typescript rimraf
+    npm install -g @angular/cli strongloop webpack webpack-dev-server karma-cli protractor typescript rimraf
   SCRIPT
 
   config.vm.provision "shell", inline: $setup_script, privileged: false
