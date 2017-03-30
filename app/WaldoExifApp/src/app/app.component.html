@@ -8,14 +8,28 @@
     <div class="row">
         <div class="col-md-6 col-md-offset-3">
             <form>
-                <div class="input-group">
-                    <span class="input-group-addon" id="input-url-desc">Amazon S3 Bucket XML URL</span>
-                    <input type="text" [value]="input_url" class="form-control" id="input-url" aria-describedby="input-url-desc">
-                </div>
-                <div class="btn-group" role="group" aria-label="Actions">
-                    <button type="button" class="btn btn-default" (click)="dryRun($event)">Dry Run</button>
-                    <button type="button" class="btn btn-default" (click)="startProcessing($event)">Start Processing</button>
-                </div>
+
+
+                
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-addon" id="input-url-desc">Amazon S3 XML URL</span>
+                                <input type="text" [value]="input_url" class="form-control" id="input-url" aria-describedby="input-url-desc">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="btn-group" role="group" aria-label="Actions">
+                                <button type="button" class="btn btn-default" (click)="dryRun($event)">Dry Run</button>
+                                <button type="button" class="btn btn-default" (click)="startProcessing($event)">Start Processing</button>
+                            </div>
+                        </div>
+                    </div>
+
+                
+                
+            
             </form>
         </div>
     </div>
