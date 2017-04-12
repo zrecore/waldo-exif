@@ -1,6 +1,9 @@
 'use strict';
 
-var validator = require('validator');
+var validator = require('validator'),
+    http      = require('http'),
+    xml2js    = require('xml2js'),
+    parser = new xml2js.Parser();
 
 module.exports = function (S3Images) {
   /**
@@ -28,11 +31,45 @@ module.exports = function (S3Images) {
 
     userInput = validator.isURL( userInput ) ? userInput : false;
 
-    console.log("User input is: ", userInput);
+    console.log("s-3-images.js::importS3Data, User input is: ", userInput);
     totalRecordsImported = 0;
     totalRecordsFound = 0;
 
-    callback(null, totalRecordsImported, totalRecordsFound);
+    if (false !== userInput) {
+      // Try reading this data...
+      var data = '',
+          xml;
+
+      http.get(userInput, function (res) {
+        if (res.statusCode >= 200 && res.statusCode <= 400) {
+          res.on('data', function (rx_data) {
+            data += rx_data.toString();
+          });
+
+          res.on('end', function () {
+            console.log("s-3-images.js::importS3Data, Read data from %s", userInput);
+
+            parser.on('error', function (err) {
+              console.log("s-3-images.js::importS3Data, XML Parse Error!", err);
+            });
+            parser.parseString(data, function (err, result) {
+              
+              totalRecordsFound = result.ListBucketResult.Contents.length;
+              console.log("s-3-images.js::importS3Data, Parse complete! Total records found: %d", totalRecordsFound);
+
+              for (var i = 0; i < totalRecordsFound; i++) {
+                // @TODO create record for each content item, check object.Key value against DB.
+                // If we don't have a record, grab image, parse exif data!
+              }
+              callback(null, totalRecordsImported, totalRecordsFound);
+            });
+          });
+        }
+      }).end();
+
+
+    }
+
   };
 
 

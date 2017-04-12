@@ -23,7 +23,8 @@
     "loopback-datasource-juggler": "^2.39.0",
     "serve-favicon": "^2.0.1",
     "strong-error-handler": "^1.0.1",
-    "validator": "^7.0.0"
+    "validator": "^7.0.0",
+    "xml2js": "^0.4.17"
   },
   "devDependencies": {
     "@mean-expert/loopback-sdk-builder": "^2.1.0-rc.9",
