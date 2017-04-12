@@ -7,7 +7,7 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'EXIF Tool';
-  input_url = 'http://s3.amazonaws.com/waldo-recruiting';
+  input_url = 'waldo-recruiting';
 
   dryRun(event) {
     console.log("@TODO: Dry run!");

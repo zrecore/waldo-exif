@@ -49,6 +49,7 @@ import { SocketDriver } from './sockets/socket.driver';
 import { SocketConnection } from './sockets/socket.connections';
 import { RealTime } from './services/core/real.time';
 import { UserApi } from './services/custom/User';
+import { S3ImagesApi } from './services/custom/S3Images';
 /**
 * @module SDKBrowserModule
 * @description
@@ -81,6 +82,7 @@ export class SDKBrowserModule {
         SDKModels,
         RealTime,
         UserApi,
+        S3ImagesApi,
         internalStorageProvider,
         { provide: SDKStorage, useClass: StorageBrowser },
         { provide: SocketDriver, useClass: SocketBrowser }

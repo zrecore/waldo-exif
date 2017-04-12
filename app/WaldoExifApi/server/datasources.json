@@ -2,5 +2,14 @@
   "db": {
     "name": "db",
     "connector": "memory"
+  },
+  "waldoexif": {
+    "host": "127.0.0.1",
+    "port": 27017,
+    "database": "admin",
+    "password": "password",
+    "name": "waldoexif",
+    "user": "admin",
+    "connector": "mongodb"
   }
 }

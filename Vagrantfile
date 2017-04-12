@@ -92,15 +92,20 @@ ExecStart=/usr/bin/mongod --quiet --config /etc/mongod.conf
 
 [Install]
 WantedBy=multi-user.target" | tee /etc/systemd/system/mongodb.service
-     sudo systemctl start mongodb
-     sudo systemctl enable mongodb
+    sudo systemctl start mongodb
+    sudo systemctl enable mongodb
+    cd /home/ubuntu/app
+    mongo admin < mongo_setup.js
+    sudo sed -i 's@ExecStart=/usr/bin/mongod --quiet --config /etc/mongod.conf@ExecStart=/usr/bin/mongod --quiet --auth --config /etc/mongod.conf@g' /lib/systemd/system/mongod.service
+    sudo systemctl daemon-reload
+    sudo systemctl restart mongodb
   SHELL
 
 
   $setup_script = <<-SCRIPT
     npm config set python /usr/bin/python2.7
     npm config set prefix /usr/local
-    npm install -g @angular/cli strongloop webpack webpack-dev-server karma-cli protractor typescript rimraf
+    npm install -g @angular/cli strongloop loopback-cli webpack webpack-dev-server karma-cli protractor typescript rimraf
   SCRIPT
 
   config.vm.provision "shell", inline: $setup_script, privileged: false

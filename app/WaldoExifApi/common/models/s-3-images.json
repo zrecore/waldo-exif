@@ -1,0 +1,71 @@
+{
+  "name": "S3Images",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "Name": {
+      "type": "string",
+      "required": true
+    },
+    "Key": {
+      "type": "string",
+      "required": true
+    },
+    "LastModified": {
+      "type": "date",
+      "required": true
+    },
+    "ETag": {
+      "type": "string",
+      "required": true
+    },
+    "Size": {
+      "type": "number",
+      "required": true
+    },
+    "StorageClass": {
+      "type": "string",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {
+    "importS3Data": {
+      "isStatic": true,
+      "accepts": [
+        {
+          "arg": "urlEnpoint",
+          "type": "string",
+          "required": true,
+          "description": "Amazon S3 URL endpoint."
+        }
+      ],
+      "returns": [
+        {
+          "arg": "totalRecordsImported",
+          "type": "number",
+          "root": false,
+          "description": "Total amount of records imported"
+        },
+        {
+          "arg": "totalRecordsFound",
+          "type": "number",
+          "root": false,
+          "description": "Total amount of records found"
+        }
+      ],
+      "description": "Import S3 Data (XML) from URL",
+      "http": [
+        {
+          "path": "imports3data",
+          "verb": "post"
+        }
+      ]
+    }
+  }
+}
