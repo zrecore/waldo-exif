@@ -36,40 +36,4 @@ module.exports = function (S3Images) {
   };
 
 
-  S3Images.remoteMethod(
-    'importS3Data',
-    {
-      "isStatic": true,
-      "accepts": [
-        {
-          "arg": "urlEnpoint",
-          "type": "string",
-          "required": true,
-          "description": "Amazon S3 URL endpoint."
-        }
-      ],
-      "returns": [
-        {
-          "arg": "totalRecordsImported",
-          "type": "number",
-          "root": false,
-          "description": "Total amount of records imported"
-        },
-        {
-          "arg": "totalRecordsFound",
-          "type": "number",
-          "root": false,
-          "description": "Total amount of records found"
-        }
-      ],
-      "description": "Import S3 Data (XML) from URL",
-      "http": [
-        {
-          "path": "/imports3data",
-          "verb": "post"
-        }
-      ]
-    }
-  );
-
 };

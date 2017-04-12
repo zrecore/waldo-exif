@@ -22,12 +22,16 @@ export class AppComponent implements OnInit {
 
   dryRun(event) {
     console.log("@TODO: Dry run!");
-    this.s3ImagesApi.importS3Data(this.input_url).subscribe(() => {
-      console.log("Import S3 Data call complete!");
-    });
+    // this.s3ImagesApi.importS3Data(this.input_url).subscribe(() => {
+    //   console.log("Import S3 Data call complete!");
+    // });
   }
 
   startProcessing(event) {
     console.log("@TODO: Start processing!");
+
+    this.s3ImagesApi.importS3Data(this.input_url).subscribe(() => {
+      console.log("Import S3 Data call complete!");
+    });
   }
 }
