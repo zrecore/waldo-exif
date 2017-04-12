@@ -62,7 +62,7 @@
       "description": "Import S3 Data (XML) from URL",
       "http": [
         {
-          "path": "imports3data",
+          "path": "/imports3data",
           "verb": "post"
         }
       ]
