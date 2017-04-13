@@ -29,6 +29,58 @@
     "StorageClass": {
       "type": "string",
       "required": true
+    },
+    "ExifApertureValue": {
+      "type": "string",
+      "required": false
+    },
+    "ExifExposureTime": {
+      "type": "string",
+      "required": false
+    },
+    "ExifFocalLength": {
+      "type": "string",
+      "required": false
+    },
+    "ExifFlash": {
+      "type": "string",
+      "required": false
+    },
+    "ExifIsoSpeedRating": {
+      "type": "number",
+      "required": false
+    },
+    "ExifMeteringMode": {
+      "type": "string",
+      "required": false
+    },
+    "ExifCameraModel": {
+      "type": "string",
+      "required": false
+    },
+    "ExifDateTime": {
+      "type": "string",
+      "required": false
+    },
+    "ExifDescription": {
+      "type": "string",
+      "required": false
+    },
+    "ExifLocation": {
+      "type": "string",
+      "required": false
+    },
+    "ExifKeywords": {
+      "type": "string",
+      "required": false
+    },
+    "ExifAuthor": {
+      "type": "string",
+      "required": false
+    },
+    "ExifCopyright": {
+      "type": "string",
+      "required": false
     }
   },
   "validations": [],
