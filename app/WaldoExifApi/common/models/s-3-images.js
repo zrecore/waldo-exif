@@ -12,12 +12,28 @@ var validator = require('validator'),
     parser = new xml2js.Parser();
 
 module.exports = function (S3Images) {
+
+
+  S3Images.processExifData = function (s3images) {
+    new ExifImage({ image: "/tmp/" + s3images.Key}, function (exifError, exifData) {
+      if (exifError) {
+        console.log("s-3-images.js::importS3Data, Error during ExifImage callback. of ", "/tmp/" + s3images.Key, exifError);
+      } else {
+        // Got some EXIF data
+        // model.ExifApertureValue
+        s3images.ImageData = exifData;
+        s3images.save();
+        console.log("Imported ", s3images.Key , "EXIF Data is ", exifData);
+
+      }
+    });
+  };
+
   /**
    * Import S3 Data (XML) from URL
    * @param {string} urlEnpoint Amazon S3 URL endpoint.
    * @param {Function(Error, number, number)} callback
    */
-
   S3Images.importS3Data = function(urlEnpoint, callback) {
     var totalRecordsImported, totalRecordsFound,
         baseURL = 'http://s3.amazonaws.com/',
@@ -120,55 +136,45 @@ module.exports = function (S3Images) {
                       // @TODO Download the image, since we don't have a working way of reading EXIF data from a URL stream yet...
                       // @TODO Implement path check to assert we ARE NOT writting somewhere we shouldn't on the file system...
 
-                      http.get(userInput + "/" + s3images.Key, function (res) {
-                        var imageData = '';
-                        res.setEncoding('binary');
+                      if (!fs.existsSync("/tmp/" + s3images.Key)) {
 
-                        res.on('data', function (chunk) {
-                          imageData += chunk;
-                        });
+                        http.get(userInput + "/" + s3images.Key, function (res) {
+                          var imageData = '';
+                          res.setEncoding('binary');
 
-                        res.on('end', function () {
-                          fs.writeFile("/tmp/" + s3images.Key, imageData, 'binary', function (err) {
-                            if (err) {
-                              console.log("s-3-images.js::importS3Data, Error writing file to disk.", err);
-                            } else {
+                          res.on('data', function (chunk) {
+                            imageData += chunk;
+                          });
 
-                              // Ok, attempt to get EXIF data
-                              new ExifImage({ image: "/tmp/" + s3images.Key}, function (exifError, exifData) {
-                                if (exifError) {
-                                  console.log("s-3-images.js::importS3Data, Error during ExifImage callback. of ", "/tmp/" + s3images.Key, exifError);
-                                } else {
-                                  // Got some EXIF data
-                                  // model.ExifApertureValue
-                                  console.log("Imported ", userInput + "/" + s3images.Key , "EXIF Data is ", exifData);
+                          res.on('end', function () {
+                            fs.writeFile("/tmp/" + s3images.Key, imageData, 'binary', function (err) {
+                              if (err) {
+                                console.log("s-3-images.js::importS3Data, Error writing file to disk.", err);
+                              } else {
 
-                                }
-                              });
+                                // Ok, attempt to get EXIF data
+                                S3Images.processExifData(s3images);
 
-                            }
+                              }
+                            });
                           });
                         });
-                      });
-                      // request(userInput + "/" + s3images.Key).pipe(fs.createWriteStream("/tmp/" + S3Images.Key).pipe(function (err, resp, bod) {
-                      //   console.log("request complete, err:", err, "response: ", resp);
-                      //   new ExifImage({ image: "/tmp/" + s3images.Key}, function (exifError, exifData) {
-                      //     if (exifError) {
-                      //       console.log("s-3-images.js::importS3Data, Error during ExifImage callback.", exifError);
-                      //     } else {
-                      //       // Got some EXIF data
-                      //       // model.ExifApertureValue
-                      //       console.log("Imported ", userInput + "/" + S3Images.Key , "EXIF Data is ", exifData);
 
-                      //     }
-                      //   });
-                      // });
+                      } else {
+                        // Use cached image instead.
+                        S3Images.processExifData(s3images);
+                      }
 
 
                     } catch (error) {
                       console.log("s-3-images.js::importS3Data, Error when using ExifImage.", error);
                     }
                     
+                  } else {
+                    // Record exists, update with EXIF data if available
+                    if (fs.existsSync("/tmp/" + s3images.Key)) {
+                      S3Images.processExifData(s3images);
+                    }
                   }
 
                   if (findOrCreateIndex >= totalRecordsFound) {
